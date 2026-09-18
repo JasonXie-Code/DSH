@@ -53,6 +53,8 @@ DSH 对 `dsh.profile.bundles` 里解析不到的包是 **fail loud**：启动直
 ├─ NOTICE.md                   第三方组件与许可说明（再分发前请读）
 ├─ LICENSE                     MIT
 ├─ manifest.json               采集元数据
+├─ docs\
+│  └─ windows-ppt-environment.md   Windows/DSH 下做 PPT 的环境事实（GBK、COM 渲染、PPTD 路线）
 ├─ config\
 │  ├─ settings.yaml            用户设置：默认模型、权限模式、界面偏好、全局提示…
 │  └─ skills\                  自定义技能
