@@ -2,10 +2,9 @@
   "kind": "dsh-config-snapshot",
   "capturedAt": "2026-09-18",
   "sourceMachine": {
-    "computer": "WIN-4BJ4K5631AN",
-    "user": "Administrator",
-    "dshHome": "C:\\Users\\Administrator\\AppData\\Roaming\\dsh-desktop\\harness",
-    "appDir": "C:\\Users\\Administrator\\AppData\\Local\\Programs\\DSH Desktop\\resources\\app"
+    "os": "Windows x64",
+    "dshHome": "%APPDATA%\\dsh-desktop\\harness",
+    "appDir": "%LOCALAPPDATA%\\Programs\\DSH Desktop\\resources\\app"
   },
   "versions": {
     "dshDesktop": "0.8.2",
@@ -19,9 +18,13 @@
   },
   "contents": {
     "settings": ["default model deepseek-v4-flash", "reasoningEffort max", "permission danger-full-access", "global-prompt text"],
-    "skills": ["html-to-pptx", "pptx"],
+    "skills": ["pptx-toolkit", "html-to-pptx"],
     "localPlugins": ["dsh-global-prompt"],
     "tools": ["apply-nav-icons.ps1"]
+  },
+  "skillProvenance": {
+    "pptx-toolkit": "clean-room, MIT, Copyright (c) 2026 Jason Xie; core dep python-pptx (MIT)",
+    "html-to-pptx": "upstream MIT, Copyright (c) 2026 Phil, https://github.com/Hasasasa/html-to-editable-pptx"
   },
   "excluded": [
     ".credentials.yaml (凭据，需 -WithCredentials 显式恢复)",
@@ -29,6 +32,8 @@
     "storages/ (运行期数据)",
     "kimi-ppt/ (PPT 插件工作目录)",
     "node_modules/ .generations/ (运行时依赖)",
-    "desktop-storage.json (桌面端界面状态)"
-  ]
+    "desktop-storage.json (桌面端界面状态)",
+    "skills/pptx (Anthropic 授权受限，禁止再分发；见 NOTICE.md)"
+  ],
+  "license": "MIT (Copyright (c) 2026 Jason Xie); third-party terms in NOTICE.md"
 }

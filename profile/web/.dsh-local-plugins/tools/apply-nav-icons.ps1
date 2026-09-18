@@ -1,4 +1,4 @@
-﻿<#
+<#
   给设置面板左侧导航的三个入口换图标：
     global-prompt（全局提示） → 消息气泡
     cost-meter   （费用）     → ¥ 符号
@@ -19,11 +19,26 @@
 #>
 [CmdletBinding()]
 param(
-  [string]$AppDir = 'C:\Users\Administrator\AppData\Local\Programs\DSH Desktop\resources\app',
+  [string]$AppDir,
   [switch]$Revert
 )
 
 $ErrorActionPreference = 'Stop'
+
+# 未指定 -AppDir 时按常见安装位置自动探测
+if (-not $AppDir) {
+  $candidates = @(
+    (Join-Path $env:LOCALAPPDATA 'Programs\DSH Desktop\resources\app'),
+    (Join-Path $env:ProgramFiles 'DSH Desktop\resources\app'),
+    (Join-Path ${env:ProgramFiles(x86)} 'DSH Desktop\resources\app')
+  )
+  foreach ($c in $candidates) {
+    if ($c -and (Test-Path -LiteralPath $c)) { $AppDir = $c; break }
+  }
+}
+if (-not $AppDir) {
+  throw '没有找到 DSH Desktop 安装目录，请用 -AppDir 指定其 resources\app 路径。'
+}
 
 $target = Join-Path $AppDir 'node_modules\@deepseek-ai\dsh-client-ui-settings-general\lib\client.js'
 $backup = "$target.orig"

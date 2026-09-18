@@ -1,0 +1,16 @@
+# pptx-toolkit 运行依赖（全部为宽松许可，可自由再分发）
+
+# 核心：读写 .pptx（MIT）。会一并装上 lxml（BSD-3）、Pillow、XlsxWriter。
+python-pptx>=0.6.21
+
+# 可选依赖 —— 按需取消注释
+#
+# render.py 走 Windows COM（PowerPoint / WPS）渲染时需要：
+#   pywin32>=306
+#
+# check_deck.py --deep 做 schema / 语义级深度校验时需要（MIT，纯 Python，
+# 是 Microsoft Open XML SDK 校验逻辑的可移植实现）：
+#   openxml-audit>=0.8.0
+#
+# render.py 走 LibreOffice 且本机没有 pdftoppm 时，用纯 Python 光栅化 PDF：
+#   pypdfium2>=4.30

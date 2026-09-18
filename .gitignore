@@ -10,6 +10,11 @@ config/credentials.yaml
 # 本机仍可在 %APPDATA%\dsh-desktop\harness\skills\pptx 正常使用，只是不入库。
 config/skills/pptx/
 
+# Python 运行产物
+__pycache__/
+*.pyc
+*.pyo
+
 # 编辑器与系统
 .vscode/
 .idea/
