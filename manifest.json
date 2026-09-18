@@ -1,0 +1,34 @@
+{
+  "kind": "dsh-config-snapshot",
+  "capturedAt": "2026-09-18",
+  "sourceMachine": {
+    "computer": "WIN-4BJ4K5631AN",
+    "user": "Administrator",
+    "dshHome": "C:\\Users\\Administrator\\AppData\\Roaming\\dsh-desktop\\harness",
+    "appDir": "C:\\Users\\Administrator\\AppData\\Local\\Programs\\DSH Desktop\\resources\\app"
+  },
+  "versions": {
+    "dshDesktop": "0.8.2",
+    "harness": "0.1.2-rc.1",
+    "profile": "web",
+    "plugins": {
+      "dshmarket": "1.45.1",
+      "dsh-cost-meter": "1.7.23",
+      "dsh-global-prompt": "0.1.0"
+    }
+  },
+  "contents": {
+    "settings": ["default model deepseek-v4-flash", "reasoningEffort max", "permission danger-full-access", "global-prompt text"],
+    "skills": ["html-to-pptx", "pptx"],
+    "localPlugins": ["dsh-global-prompt"],
+    "tools": ["apply-nav-icons.ps1"]
+  },
+  "excluded": [
+    ".credentials.yaml (凭据，需 -WithCredentials 显式恢复)",
+    "sessions/ attachments/ (会话与附件)",
+    "storages/ (运行期数据)",
+    "kimi-ppt/ (PPT 插件工作目录)",
+    "node_modules/ .generations/ (运行时依赖)",
+    "desktop-storage.json (桌面端界面状态)"
+  ]
+}

@@ -1,0 +1,17 @@
+# 凭据与备份：绝不入库
+config/credentials.yaml
+.credentials.yaml
+*.bak-*
+*.orig
+
+# 授权受限的第三方技能：Anthropic 的 pptx 技能。
+# 其 LICENSE.txt 为 "© 2025 Anthropic, PBC. All rights reserved."，并明确禁止
+# 在 Anthropic 服务之外保留副本、复制、派生以及分发给第三方，因此不随本仓库发布。
+# 本机仍可在 %APPDATA%\dsh-desktop\harness\skills\pptx 正常使用，只是不入库。
+config/skills/pptx/
+
+# 编辑器与系统
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store

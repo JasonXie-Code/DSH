@@ -1,0 +1,32 @@
+{
+  "name": "dsh-global-prompt",
+  "version": "0.1.0",
+  "private": true,
+  "description": "为 DeepSeek Harness 设置面板增加「全局提示」页：一段对所有会话生效的系统提示词。",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./client/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-settings"
+      ]
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.2",
+    "@deepseek-ai/dsh-settings": "^0.1.2-rc.1",
+    "@deepseek-ai/dsh-system-prompt": "^0.1.2-rc.1",
+    "@deepseek-ai/schemastery": "^3.18.2"
+  },
+  "license": "MIT"
+}

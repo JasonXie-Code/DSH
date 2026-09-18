@@ -1,0 +1,49 @@
+ui-onboarding:
+  welcomeNoticeVersion: 2026-08-13.1
+agent-default-model:
+  provider: deepseek-official
+  model: deepseek-v4-flash
+  reasoningEffort: max
+llm-deepseek:
+  models:
+    - id: deepseek-v4-flash
+      name: DeepSeek-V4-Flash
+      description: Fast, efficient, and economical; suited to focused, routine, or
+        parallel tasks.
+      contextWindow: 1000000
+      inputModalities:
+        - text
+        - image
+permission:
+  defaultPreset: danger-full-access
+ui-conversation:
+  busyEnter: steer
+agent-presets:
+  default: cordis
+global-prompt:
+  text: |
+    代码修改规则：
+
+    1. Git 管理
+
+    * 开始工作前，检查当前目录是否为 Git 仓库。
+    * 如果不是 Git 仓库，请先初始化 Git。
+    * 将项目中的代码文件加入 Git 跟踪。
+    * 如果本次任务中新建了代码文件，必须将新文件加入 Git 跟踪。
+    * 完成所有修改后，执行一次提交，提交本次全部变更。
+    * 提交信息应简洁描述本次修改内容。
+
+    2. 文件大小控制
+
+    * 如果发现单个代码文件超过 1500 行，请优先进行拆分。
+    * 只应该拆分代码文件，不应该拆分文档或者数据。
+    * 拆分时应保持功能、接口和行为不变。
+    * 拆分后的每个代码文件都应控制在 1500 行以内。
+    * 不要为了拆分而破坏项目结构或引入不必要的复杂度。
+
+    3. 修改要求
+
+    * 修改前先理解现有代码结构。
+    * 尽量保持原有代码风格。
+    * 不要删除与任务无关的功能。
+    * 修改完成后，如项目已有测试或构建命令，请优先运行验证。

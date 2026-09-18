@@ -1,0 +1,9 @@
+# Your patch layer for this dsh profile, applied after every bundle layer:
+# a top-level YAML array of loader patch entries (id-targeted config
+# overrides, disables, and insert lists; `!!js` expressions allowed).
+
+# 全局提示：源码在 .dsh-local-plugins/dsh-global-prompt，设置面板里新增一个
+# 「全局提示」页，内容作为全局系统提示词段落注入。删除下面这一项即可卸载。
+- insert:
+    - id: global-prompt
+      name: 'dsh-global-prompt'
