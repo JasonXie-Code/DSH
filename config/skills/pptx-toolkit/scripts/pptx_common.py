@@ -1,6 +1,6 @@
 """pptx-toolkit 内部共享工具。
 
-只依赖 Python 标准库与 python-pptx（MIT），不含任何授权受限的第三方代码。
+只依赖 Python 标准库与 python-pptx（MIT）等宽松许可的第三方库。
 所有脚本都会先调用 ensure_utf8_stdout()，避免在中文 Windows 的 GBK 控制台上
 打印非 GBK 字符（例如 "→"、emoji、部分 CJK 扩展字符）时抛 UnicodeEncodeError。
 """

@@ -33,8 +33,7 @@
     "storages/ (运行期数据)",
     "kimi-ppt/ (PPT 插件工作目录)",
     "node_modules/ .generations/ (运行时依赖)",
-    "desktop-storage.json (桌面端界面状态)",
-    "skills/pptx (Anthropic 授权受限，禁止再分发；见 NOTICE.md)"
+    "desktop-storage.json (桌面端界面状态)"
   ],
   "license": "MIT (Copyright (c) 2026 Jason Xie); third-party terms in NOTICE.md"
 }

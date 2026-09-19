@@ -46,5 +46,4 @@ py tests\smoke_test.py
 ## 许可
 
 MIT（Copyright (c) 2026 Jason Xie）。独立实现，只使用 Python 标准库与宽松许可的
-第三方库，不含任何来自 Anthropic 授权受限技能的代码、OOXML 架构文件或提示词。
-详见 [`LICENSE`](./LICENSE)。
+第三方库。详见 [`LICENSE`](./LICENSE)。

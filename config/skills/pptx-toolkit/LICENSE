@@ -22,5 +22,5 @@ SOFTWARE.
 
 ---
 
-本技能的代码为独立实现（clean-room）：只使用 Python 标准库与 python-pptx（MIT），
-不含任何来自 Anthropic 授权受限技能的代码、架构文件或提示词。
+本技能的代码为独立实现（clean-room）：只使用 Python 标准库与 python-pptx（MIT）
+等宽松许可的第三方库。

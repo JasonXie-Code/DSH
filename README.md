@@ -98,10 +98,6 @@ py -m pip install -r config\skills\pptx-toolkit\requirements.txt
 py config\skills\pptx-toolkit\tests\smoke_test.py     # 自检，26 项断言
 ```
 
-> **注意**：`skills\pptx\`（Anthropic 的 pptx 技能）**不包含在本仓库内**。
-> 它的 `LICENSE.txt` 禁止在 Anthropic 服务之外保留副本与再分发，因此已从仓库与
-> 全部提交历史中剔除，替代能力由 `pptx-toolkit` 提供。详见 [`NOTICE.md`](./NOTICE.md)。
-
 ### 技能：网页抓取被 TUN fake-ip 拦住时
 
 TUN 代理开着时，系统 DNS 把域名解析到 fake-ip 保留段 `198.18.0.0/15`；DSH 内置的
@@ -134,7 +130,6 @@ pwsh -NoProfile -File "$SkillDir\scripts\selftest.ps1"    # 自检，18 项断�
 | 没有 | 原因 / 需要时怎么办 |
 | --- | --- |
 | `.credentials.yaml`（API Key） | 属于凭据，默认不复制、也不提交 Git。要用就把它放到 `config\credentials.yaml` 再跑 `restore.ps1 -WithCredentials`；或在新机器上到 **设置 → 模型** 重新填一次 Key |
-| `skills\pptx\`（Anthropic pptx 技能） | 上游许可禁止再分发，见 [`NOTICE.md`](./NOTICE.md)；替代见 `pptx-toolkit` |
 | `sessions\`、`attachments\` | 会话历史与附件，属于私有数据 |
 | `storages\` | 运行期数据（费用账本、投影缓存等）。想要历史费用账本，手动拷 `harness\storages\cost-meter\ledger.json` 即可 |
 | `kimi-ppt\` | PPT 插件的按会话工作目录与缓存 |
@@ -175,12 +170,11 @@ pwsh -NoProfile -File "$SkillDir\scripts\selftest.ps1"    # 自检，18 项断�
 在目标 harness 目录里按文件名找回即可。
 图标补丁单独回滚：`apply-nav-icons.ps1 -Revert`（从 `client.js.orig` 还原）。
 
-`.gitignore` 已排除凭据、备份文件与授权受限的技能目录，避免误提交。
+`.gitignore` 已排除凭据、备份文件与 Python 运行产物，避免误提交。
 
 ## 七、许可
 
 本仓库自有内容采用 **MIT License**（Copyright (c) 2026 Jason Xie），见 [`LICENSE`](./LICENSE)。
 
-随仓库分发的第三方内容与**有意排除**的内容，逐项列在 [`NOTICE.md`](./NOTICE.md)，
-其中包括一份"看起来是 MIT、实为 Anthropic 专有材料的 pptx 技能"清单——
-再分发或挑选同类技能前建议先读一遍。
+随仓库分发的第三方内容、运行依赖各自的许可，以及本仓库有意排除的内容，
+逐项列在 [`NOTICE.md`](./NOTICE.md)；再分发前建议先读一遍。

@@ -147,5 +147,4 @@ py scripts\render.py deck.pptx -o preview\           # 眼见为实
 ## 许可
 
 MIT（Copyright (c) 2026 Jason Xie）。本技能为独立实现，只使用 Python 标准库与
-python-pptx（MIT），**不含**任何来自 Anthropic 授权受限技能的代码、OOXML 架构文件
-或提示词。详见同目录 `LICENSE`。
+python-pptx（MIT）等宽松许可的第三方库。详见同目录 `LICENSE`。

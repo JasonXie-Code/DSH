@@ -4,10 +4,7 @@ config/credentials.yaml
 *.bak-*
 *.orig
 
-# 授权受限的第三方技能：Anthropic 的 pptx 技能。
-# 其 LICENSE.txt 为 "© 2025 Anthropic, PBC. All rights reserved."，并明确禁止
-# 在 Anthropic 服务之外保留副本、复制、派生以及分发给第三方，因此不随本仓库发布。
-# 本机仍可在 %APPDATA%\dsh-desktop\harness\skills\pptx 正常使用，只是不入库。
+# 本地存在、但不随仓库发布的技能目录（防止误提交）
 config/skills/pptx/
 
 # Python 运行产物
