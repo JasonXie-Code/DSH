@@ -59,7 +59,8 @@ DSH 对 `dsh.profile.bundles` 里解析不到的包是 **fail loud**：启动直
 │  ├─ settings.yaml            用户设置：默认模型、权限模式、界面偏好、全局提示…
 │  └─ skills\                  自定义技能
 │     ├─ pptx-toolkit\         读写/体检/编辑/预览已有的 pptx（本仓库自带，MIT）
-│     └─ html-to-pptx\         HTML 幻灯片 → 可编辑 pptx（上游 MIT）
+│     ├─ html-to-pptx\         HTML 幻灯片 → 可编辑 pptx（上游 MIT）
+│     └─ tun-fakeip-fetch\     TUN fake-ip 下取网页正文（本仓库自带，MIT）
 └─ profile\web\                web profile 的配置
    ├─ package.json             依赖与组合 bundles（已清洗，见下）
    ├─ cordis.yml               组合根（空列表，树由 patch 层拼出来）
@@ -101,6 +102,31 @@ py config\skills\pptx-toolkit\tests\smoke_test.py     # 自检，26 项断言
 > 它的 `LICENSE.txt` 禁止在 Anthropic 服务之外保留副本与再分发，因此已从仓库与
 > 全部提交历史中剔除，替代能力由 `pptx-toolkit` 提供。详见 [`NOTICE.md`](./NOTICE.md)。
 
+### 技能：网页抓取被 TUN fake-ip 拦住时
+
+TUN 代理开着时，系统 DNS 把域名解析到 fake-ip 保留段 `198.18.0.0/15`；DSH 内置的
+网页获取（`web_fetch`）在发请求前会校验解析结果是否公网地址，于是对**几乎所有域名**
+都报 `WEB_BLOCKED_URL`（`resolves to a non-public IP address`）。而浏览器、`curl`
+打开同一个网址完全正常——这是解析语义冲突，不是网络故障，换域名和重试都没用。
+
+`tun-fakeip-fetch` 就是这条路的兜底：用 DoH 取真实 IP 直连，按
+`proxy → direct（DoH 真实 IP + curl --resolve）→ curl-doh` 三级降级，
+并把三条路径的结论一起打出来，用来区分**代理线路故障**和**站点真的挂了**。
+
+```powershell
+$SkillDir = Join-Path $env:DSH_HOME 'skills\tun-fakeip-fetch'
+pwsh -NoProfile -File "$SkillDir\scripts\tun-fetch.ps1" https://www.baidu.com/ -PlainText -Preview 800
+pwsh -NoProfile -File "$SkillDir\scripts\selftest.ps1"    # 自检，18 项断言
+```
+
+> **本机取舍（2026-09-19）**：保持不变 TUN + fake-ip，也不按域名加白名单
+> （fake-ip 是全局默认，逐域名放行等于给整个互联网列清单）。因此本技能是取网页的
+> **正规路径**，不是临时绕道；改用 `fake-ip-filter` / `enhanced-mode: redir-host`
+> 的根治方案已评估并否决，只作为备查留在 `SKILL.md` 里。
+
+判定方法、参数表（`-PlainText` / `-Json` / `-OutFile` / `-ResolveOnly` 等）、
+禁忌边界与本机事实表都写在 `config\skills\tun-fakeip-fetch\SKILL.md`。
+
 ---
 
 ## 三、包里**没有**什么（以及为什么）
@@ -131,7 +157,7 @@ py config\skills\pptx-toolkit\tests\smoke_test.py     # 自检，26 项断言
    最后三个的图标分别是 气泡 / ¥ / 店铺。
 2. **全局提示**页里有你原来那段内容，文本框可编辑，保存后写回 `settings.yaml`。
 3. 模型列表里有 `DeepSeek-V4-Flash`（contextWindow 1000000，支持图片输入）。
-4. 技能列表里有 `pptx-toolkit` 与 `html-to-pptx`。
+4. 技能列表里有 `pptx-toolkit`、`html-to-pptx` 与 `tun-fakeip-fetch`。
 
 ## 五、版本与升级
 

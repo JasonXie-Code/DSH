@@ -95,5 +95,6 @@
 
 除上述第三方内容外，`restore.ps1`、`README.md`、`NOTICE.md`、`LICENSE`、
 `manifest.json`、`config/settings.yaml`、`config/skills/pptx-toolkit/`、
+`config/skills/tun-fakeip-fetch/`、
 `profile/web/` 下的配置与本地插件（`dsh-global-prompt`、`tools/apply-nav-icons.ps1`）
 等均为本项目自有内容，按 MIT 授权。

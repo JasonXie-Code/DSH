@@ -18,13 +18,14 @@
   },
   "contents": {
     "settings": ["default model deepseek-v4-flash", "reasoningEffort max", "permission danger-full-access", "global-prompt text"],
-    "skills": ["pptx-toolkit", "html-to-pptx"],
+    "skills": ["pptx-toolkit", "html-to-pptx", "tun-fakeip-fetch"],
     "localPlugins": ["dsh-global-prompt"],
     "tools": ["apply-nav-icons.ps1"]
   },
   "skillProvenance": {
     "pptx-toolkit": "clean-room, MIT, Copyright (c) 2026 Jason Xie; core dep python-pptx (MIT)",
-    "html-to-pptx": "upstream MIT, Copyright (c) 2026 Phil, https://github.com/Hasasasa/html-to-editable-pptx"
+    "html-to-pptx": "upstream MIT, Copyright (c) 2026 Phil, https://github.com/Hasasasa/html-to-editable-pptx",
+    "tun-fakeip-fetch": "clean-room, MIT, Copyright (c) 2026 Jason Xie; 只用 PowerShell 7 与 Windows 自带 curl.exe，无第三方依赖"
   },
   "excluded": [
     ".credentials.yaml (凭据，需 -WithCredentials 显式恢复)",
