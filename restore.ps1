@@ -1,4 +1,4 @@
-﻿<#
+<#
   把本目录里的一套 DSH 配置与插件复刻到本机。
 
   前置条件：目标机器已经装好 DSH Desktop，并且至少启动过一次
@@ -114,12 +114,16 @@ Copy-Tree (Join-Path $root 'profile\web') $profileWeb
 
 # ── 5. 本地插件的 node_modules 联接 ────────────────────────────
 Step '本地插件链接'
-$pluginSrc = Join-Path $profileWeb '.dsh-local-plugins\dsh-global-prompt'
 $nodeModules = Join-Path $profileWeb 'node_modules'
-$link = Join-Path $nodeModules 'dsh-global-prompt'
-if (-not (Test-Path -LiteralPath (Join-Path $root 'profile\web\.dsh-local-plugins\dsh-global-prompt'))) {
-  Warn "备份包里没有本地插件（跳过）：$pluginSrc"
-} else {
+$localPlugins = @('dsh-global-prompt', 'dsh-nav-icons')
+foreach ($plugin in $localPlugins) {
+  $src = Join-Path $root "profile\web\.dsh-local-plugins\$plugin"
+  $pluginSrc = Join-Path $profileWeb ".dsh-local-plugins\$plugin"
+  $link = Join-Path $nodeModules $plugin
+  if (-not (Test-Path -LiteralPath $src)) {
+    Warn "备份包里没有本地插件（跳过）：$src"
+    continue
+  }
   if ($DryRun) {
     Say "  [dry] 删除旧链接（若存在）：$link"
     Say "  [dry] 建立目录联接 $link -> $pluginSrc"
@@ -153,7 +157,7 @@ if ($InstallPlugins) {
 } else {
   Say '  已跳过（未指定 -InstallPlugins）。安装方式二选一：'
   Say '    a) 重跑本脚本并加 -InstallPlugins（需要联网）'
-  Say '    b) 启动 DSH Desktop 后在 插件市场 里安装 dshmarket 1.45.1 与 dsh-cost-meter 1.7.23'
+  Say '    b) 启动 DSH Desktop 后在 插件市场 里安装 dshmarket 1.45.1 与 dsh-cost-meter 1.7.22'
 }
 
 # ── 7. 启动安全检查 ────────────────────────────────────────────
@@ -185,16 +189,22 @@ if ($absent.Count -eq 0) {
   Warn '装法：重跑本脚本并加 -InstallPlugins（联网），或启动后在 插件市场 里安装。'
 }
 
-if (Test-Path -LiteralPath (Join-Path $pluginSrc 'package.json')) {
-  Say '  本地插件 dsh-global-prompt 已就位'
+$missingLocal = @()
+foreach ($plugin in $localPlugins) {
+  if (-not (Test-Path -LiteralPath (Join-Path $profileWeb ".dsh-local-plugins\$plugin\package.json"))) {
+    $missingLocal += $plugin
+  }
+}
+if ($missingLocal.Count -eq 0) {
+  Say "  本地插件已就位：$($localPlugins -join '、')"
 } elseif (Test-Path -LiteralPath $patchFile) {
   if ($DryRun) {
-    Say '  [dry] 本地插件缺失，清空 cordis.patch.yml 的补丁层'
+    Say "  [dry] 本地插件缺失（$($missingLocal -join '、')），清空 cordis.patch.yml 的补丁层"
   } else {
     $emptyPatch = "# 本地插件缺失，补丁层暂时清空；重跑 restore.ps1 可恢复。`r`n[]`r`n"
     [System.IO.File]::WriteAllText($patchFile, $emptyPatch, $utf8NoBom)
   }
-  Warn '本地插件缺失，已清空 cordis.patch.yml（设置页的「全局提示」会暂时消失）。'
+  Warn "本地插件缺失（$($missingLocal -join '、')），已清空 cordis.patch.yml（「全局提示」页与导航图标自愈会暂时消失）。"
 }
 
 # ── 8. 导航图标补丁 ────────────────────────────────────────────

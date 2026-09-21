@@ -7,3 +7,13 @@
 - insert:
     - id: global-prompt
       name: 'dsh-global-prompt'
+
+# 导航图标自愈：源码在 .dsh-local-plugins/dsh-nav-icons。
+# 设置面板的导航图标在 dsh-client-ui-settings-general 的 navIcon() 里按 section id
+# 硬编码，而 settings.section 只接受 id/order/label、没有 icon 字段，因此只能用
+# 补丁改安装目录里的外壳 bundle —— 而安装目录会被应用升级整体覆盖。
+# 本插件在每次 DSH 启动时检查补丁是否在位，缺失就重新打上，于是升级后无需人工干预。
+# 卸载：删掉下面这一项，再执行 tools/apply-nav-icons.ps1 -Revert 还原安装目录。
+- insert:
+    - id: nav-icons
+      name: 'dsh-nav-icons'

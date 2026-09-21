@@ -65,13 +65,14 @@ DSH 对 `dsh.profile.bundles` 里解析不到的包是 **fail loud**：启动直
 └─ profile\web\                web profile 的配置
    ├─ package.json             依赖与组合 bundles（已清洗，见下）
    ├─ cordis.yml               组合根（空列表，树由 patch 层拼出来）
-   ├─ cordis.patch.yml         用户补丁层：这里挂着本地插件 dsh-global-prompt
+   ├─ cordis.patch.yml         用户补丁层：挂着 dsh-global-prompt 与 dsh-nav-icons
    ├─ pnpm-workspace.yaml      nodeLinker: hoisted 等安装约定
    ├─ pnpm-lock.yaml           第三方插件的锁定版本
    ├─ .npmrc                   pnpm 设置
    ├─ .dsh-market\state.json   插件市场状态（区域等）
    └─ .dsh-local-plugins\      本地自研插件
       ├─ dsh-global-prompt\    设置面板「全局提示」页 + 全局系统提示词段落
+      ├─ dsh-nav-icons\        让导航图标补丁在应用升级后自愈（Host 半侧）
       └─ tools\                导航图标补丁脚本（全局提示/费用/插件市场 三个图标）
 ```
 
@@ -81,7 +82,8 @@ DSH 对 `dsh.profile.bundles` 里解析不到的包是 **fail loud**：启动直
 | --- | --- |
 | `settings.yaml` | 默认模型 `deepseek-v4-flash`、推理强度 max、权限模式 `danger-full-access`、Enter 行为「插话发送」、语言中文，以及 **`global-prompt`：全局提示正文**（对所有会话生效的系统提示词段落） |
 | `dsh-global-prompt` | 本地插件：给设置面板加了「全局提示」页，保存即写入 `settings.yaml` 的 `global-prompt.text`，从下一个模型步骤起对所有会话（含子代理）生效 |
-| `tools\apply-nav-icons.ps1` | 把设置面板导航里「全局提示 / 费用 / 插件市场」三个图标换成 消息气泡 / ¥ / 店铺。改的是安装目录里的外壳文件，**应用升级后要重跑**（未指定 `-AppDir` 时自动探测安装位置） |
+| `dsh-nav-icons` | 本地插件：每次 DSH 启动时检查导航图标补丁是否在位，缺失就调 `tools\apply-nav-icons.ps1` 补上——**应用升级后图标自动恢复，不用再手动重跑**。已打过补丁时只读一次文件、不启动子进程；任何失败只记警告，绝不影响启动 |
+| `tools\apply-nav-icons.ps1` | 把设置面板导航里「全局提示 / 费用 / 插件市场」三个图标换成 消息气泡 / ¥ / 店铺。改的是安装目录里的外壳文件（`settings.section` 没有 `icon` 字段，只能补文件）。补丁内容只此一份：含锚点唯一性校验、覆盖前备份、`node --check` 语法校验失败自动还原；由 `dsh-nav-icons` 在需要时调用，也可手动跑（未指定 `-AppDir` 时自动探测安装位置） |
 | `skills\` | 自定义技能，直接落盘即可被 DSH 识别 |
 
 ### 技能：三种出稿路线怎么分工
@@ -163,9 +165,11 @@ pwsh -NoProfile -File "$SkillDir\scripts\selftest.ps1"    # 自检，18 项断�
 上游当前最新稳定版为 **0.9.1**（2026-09-20 发布），升级时注意：
 
 1. 升级前先跑一次 `restore.ps1 -DryRun` 记录当前会被覆盖的文件，升级后如需回退可对照。
-2. DSH Desktop 升级会**覆盖安装目录**，导航图标补丁随之失效（图标退回默认齿轮，
-   不会报错）——重跑 `profile\web\.dsh-local-plugins\tools\apply-nav-icons.ps1` 即可。
-3. 本地插件 `dsh-global-prompt` 与 profile 配置在 harness 目录里，**不受应用升级影响**。
+2. DSH Desktop 升级会**覆盖安装目录**，导航图标补丁随之失效；本地插件 `dsh-nav-icons`
+   会在**下次启动时自动补回**（图标先退回默认齿轮，重启 DSH 后恢复，无需人工干预）。
+   想立刻恢复也可以手动重跑 `profile\web\.dsh-local-plugins\tools\apply-nav-icons.ps1`。
+3. 本地插件 `dsh-global-prompt`、`dsh-nav-icons` 与 profile 配置都在 harness 目录里，
+   **不受应用升级影响**。
 4. 升级后若设置项被新版迁移或补了默认值，属正常现象；重新采集一份快照对比即可。
 
 ## 六、回滚
@@ -173,6 +177,8 @@ pwsh -NoProfile -File "$SkillDir\scripts\selftest.ps1"    # 自检，18 项断�
 `restore.ps1` 每次覆盖前都会把原文件备份成 `<原文件名>.bak-<时间戳>`，
 在目标 harness 目录里按文件名找回即可。
 图标补丁单独回滚：`apply-nav-icons.ps1 -Revert`（从 `client.js.orig` 还原）。
+要**永久**去掉图标补丁：删掉 `cordis.patch.yml` 里 `id: nav-icons` 那一项（卸载自愈插件），
+再执行 `apply-nav-icons.ps1 -Revert` 还原安装目录。
 
 `.gitignore` 已排除凭据、备份文件与 Python 运行产物，避免误提交。
 

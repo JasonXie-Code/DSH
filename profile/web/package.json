@@ -4,6 +4,7 @@
   "dependencies": {
     "dshmarket": "1.45.1",
     "dsh-global-prompt": "link:./.dsh-local-plugins/dsh-global-prompt",
+    "dsh-nav-icons": "link:./.dsh-local-plugins/dsh-nav-icons",
     "dsh-cost-meter": "1.7.22"
   },
   "dsh": {

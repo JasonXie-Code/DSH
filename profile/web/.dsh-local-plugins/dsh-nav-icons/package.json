@@ -1,0 +1,15 @@
+{
+  "name": "dsh-nav-icons",
+  "version": "0.1.0",
+  "private": true,
+  "description": "让设置面板的导航图标补丁在 DSH Desktop 升级后自愈：启动时若发现补丁缺失就重新打上。",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "license": "MIT"
+}

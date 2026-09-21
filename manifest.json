@@ -26,7 +26,7 @@
       "global-prompt text（含「使用中文简体回答。」）"
     ],
     "skills": ["pptx-toolkit", "html-to-pptx", "tun-fakeip-fetch"],
-    "localPlugins": ["dsh-global-prompt"],
+    "localPlugins": ["dsh-global-prompt", "dsh-nav-icons"],
     "tools": ["apply-nav-icons.ps1"]
   },
   "skillProvenance": {
