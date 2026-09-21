@@ -1,23 +1,30 @@
 {
   "kind": "dsh-config-snapshot",
   "capturedAt": "2026-09-18",
+  "updatedAt": "2026-09-21",
   "sourceMachine": {
     "os": "Windows x64",
     "dshHome": "%APPDATA%\\dsh-desktop\\harness",
     "appDir": "%LOCALAPPDATA%\\Programs\\DSH Desktop\\resources\\app"
   },
   "versions": {
-    "dshDesktop": "0.8.2",
-    "harness": "0.1.2-rc.1",
+    "dshDesktop": "0.9.0",
+    "harness": "0.1.5-rc.2",
     "profile": "web",
     "plugins": {
       "dshmarket": "1.45.1",
-      "dsh-cost-meter": "1.7.23",
+      "dsh-cost-meter": "1.7.22",
       "dsh-global-prompt": "0.1.0"
     }
   },
   "contents": {
-    "settings": ["default model deepseek-v4-flash", "reasoningEffort max", "permission danger-full-access", "global-prompt text"],
+    "settings": [
+      "default model deepseek-v4-flash",
+      "reasoningEffort max",
+      "permission danger-full-access",
+      "ui-theme light",
+      "global-prompt text（含「使用中文简体回答。」）"
+    ],
     "skills": ["pptx-toolkit", "html-to-pptx", "tun-fakeip-fetch"],
     "localPlugins": ["dsh-global-prompt"],
     "tools": ["apply-nav-icons.ps1"]
@@ -31,9 +38,19 @@
     ".credentials.yaml (凭据，需 -WithCredentials 显式恢复)",
     "sessions/ attachments/ (会话与附件)",
     "storages/ (运行期数据)",
-    "kimi-ppt/ (PPT 插件工作目录)",
-    "node_modules/ .generations/ (运行时依赖)",
-    "desktop-storage.json (桌面端界面状态)"
+    "kimi-ppt/ cache/ (PPT 插件与运行时缓存)",
+    "node_modules/ .generations/ .dsh-module-fallback/ (运行时依赖与插件代际)",
+    "desktop-storage.json (桌面端界面状态)",
+    ".npmrc 中的 store-dir 等机器绝对路径"
+  ],
+  "cleaned": [
+    "profile/web/package.json：删除 dsh.desktop.generationProjection（桌面端插件代际记录）",
+    "profile/web/package.json：删除 pnpm.overrides 中指向 profiles/.generations/live/... 的 link: 覆盖",
+    "profile/web/.npmrc：删除 store-dir 机器绝对路径"
+  ],
+  "notes": [
+    "DSH Desktop 升级会覆盖安装目录，导航图标补丁随之失效（图标退回默认齿轮、不报错），重跑 tools/apply-nav-icons.ps1 即可",
+    "插件版本按现场实际生效值记录；npm 上 dsh-cost-meter 已至 1.7.30、dshmarket 已至 1.52.0，本快照未跟踪其升级"
   ],
   "license": "MIT (Copyright (c) 2026 Jason Xie); third-party terms in NOTICE.md"
 }

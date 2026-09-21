@@ -4,8 +4,9 @@
 把 `settings.yaml`、自定义技能、web profile 的组合与本地插件打包在一起，
 用一条脚本还原到另一台机器上，得到同一套环境。
 
-采集时间：**2026-09-18**　采集时版本：DSH Desktop **0.8.2** · Harness **0.1.2-rc.1**
-第三方插件：dshmarket **1.45.1** / dsh-cost-meter **1.7.23** / 本地插件 dsh-global-prompt **0.1.0**
+首次采集：**2026-09-18**　最近同步：**2026-09-21**
+当前版本：DSH Desktop **0.9.0** · Harness **0.1.5-rc.2**
+第三方插件：dshmarket **1.45.1** / dsh-cost-meter **1.7.22** / 本地插件 dsh-global-prompt **0.1.0**
 
 本仓库采用 **MIT 许可**；其中第三方内容的授权情况见 [`NOTICE.md`](./NOTICE.md)。
 
@@ -28,7 +29,7 @@ pwsh -ExecutionPolicy Bypass -File .\restore.ps1 -InstallPlugins
 
 `-InstallPlugins` 会用 profile 自带的 pnpm 从 npm 装回两个第三方插件（需要联网）。
 不想联网就先把包拷过去，启动 DSH Desktop 后在 **插件市场** 里装 `dshmarket 1.45.1`
-与 `dsh-cost-meter 1.7.23`，效果一样。
+与 `dsh-cost-meter 1.7.22`，效果一样。
 
 最后**完全退出并重新启动 DSH Desktop**，配置与插件在启动时加载。
 
@@ -133,15 +134,17 @@ pwsh -NoProfile -File "$SkillDir\scripts\selftest.ps1"    # 自检，18 项断�
 | `sessions\`、`attachments\` | 会话历史与附件，属于私有数据 |
 | `storages\` | 运行期数据（费用账本、投影缓存等）。想要历史费用账本，手动拷 `harness\storages\cost-meter\ledger.json` 即可 |
 | `kimi-ppt\` | PPT 插件的按会话工作目录与缓存 |
-| `node_modules\`、`.generations\` | 运行时依赖，目标机器自己装（脚本或插件市场） |
+| `cache\`、`.dsh-module-fallback\` | 运行时缓存与模块回退目录，由 DSH 自动重建 |
+| `node_modules\`、`.generations\` | 运行时依赖与插件代际，目标机器自己装（脚本或插件市场） |
 | `desktop-storage.json` | 桌面端界面状态，含本机会话/工作区 ID，换机无意义 |
 
 `profile\web\package.json` 相对原机器做了两处清洗，去掉机器相关状态：
 
 - 删除 `dsh.desktop.generationProjection`（桌面端记录的插件代际信息）
 - 删除 `pnpm.overrides` 里指向 `profiles\.generations\live\...` 的 `link:` 覆盖
+- `.npmrc` 里删除 `store-dir` 指向本机用户目录的绝对路径
 
-这样在新机器上 `pnpm install` 会正常从 npm 安装 `dsh-cost-meter@1.7.23`，
+这样在新机器上 `pnpm install` 会正常从 npm 安装 `dsh-cost-meter@1.7.22`，
 而不是去一个不存在的本地代际目录找文件。
 
 ---
@@ -156,7 +159,8 @@ pwsh -NoProfile -File "$SkillDir\scripts\selftest.ps1"    # 自检，18 项断�
 
 ## 五、版本与升级
 
-本快照基于 DSH Desktop **0.8.2** / harness **0.1.2-rc.1**。上游已有更新版本，升级时注意：
+本快照基于 DSH Desktop **0.9.0** / harness **0.1.5-rc.2**（2026-09-21 同步）。
+上游当前最新稳定版为 **0.9.1**（2026-09-20 发布），升级时注意：
 
 1. 升级前先跑一次 `restore.ps1 -DryRun` 记录当前会被覆盖的文件，升级后如需回退可对照。
 2. DSH Desktop 升级会**覆盖安装目录**，导航图标补丁随之失效（图标退回默认齿轮，

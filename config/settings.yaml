@@ -1,9 +1,7 @@
 ui-onboarding:
   welcomeNoticeVersion: 2026-08-13.1
-agent-default-model:
-  provider: deepseek-official
-  model: deepseek-v4-flash
-  reasoningEffort: max
+ui-theme:
+  preference: light
 llm-deepseek:
   models:
     - id: deepseek-v4-flash
@@ -14,14 +12,20 @@ llm-deepseek:
       inputModalities:
         - text
         - image
-permission:
-  defaultPreset: danger-full-access
 ui-conversation:
   busyEnter: steer
+permission:
+  defaultPreset: danger-full-access
+agent-default-model:
+  provider: deepseek-official
+  model: deepseek-v4-flash
+  reasoningEffort: max
 agent-presets:
   default: cordis
 global-prompt:
   text: |
+    使用中文简体回答。
+
     代码修改规则：
 
     1. Git 管理
